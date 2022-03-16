@@ -4,6 +4,7 @@ from dataclasses import dataclass
 
 CONFIG_PATH = "config.json"
 
+
 class Config:
     def __init__(self):
         d = self.read_config()
@@ -16,7 +17,6 @@ class Config:
         y = d["healthchecks"]
         self.healthchecks = HealthchecksConfig(**y)
 
-
         self.simple_auth = SimpleAuth(**d["simple_auth"])
         self.influxdb = InfluxdbConfig(**d["influxdb"])
         self.narodmon = NarodmonConfig(**d["narodmon"])
@@ -26,9 +26,10 @@ class Config:
             wave=ThingspeakDeviceConfig(**d["thingspeak"]["wave"]),
             chel=ThingspeakDeviceConfig(**d["thingspeak"]["chel"]),
             moxovich=ThingspeakDeviceConfig(**d["thingspeak"]["moxovich"]),
-            moxovich_second=ThingspeakDeviceConfig(**d["thingspeak"]["moxovich_second"]),
+            moxovich_second=ThingspeakDeviceConfig(
+                **d["thingspeak"]["moxovich_second"]
+            ),
         )
-
 
     @staticmethod
     def read_config():
@@ -49,6 +50,7 @@ class CommonRoutesConfig:
     heartbeat_handle: str
     sensor_data: str
     log: str
+
 
 @dataclass
 class CommonConfig:
@@ -72,10 +74,12 @@ class HealthchecksConfig:
     device_moxovich: str
     device_moxovich_second: str
 
+
 @dataclass
 class ThingspeakDeviceConfig:
     id: str
     token: str
+
 
 @dataclass
 class ThingspeakConfig:
@@ -86,16 +90,19 @@ class ThingspeakConfig:
     moxovich: ThingspeakDeviceConfig
     moxovich_second: ThingspeakDeviceConfig
 
+
 @dataclass
 class InfluxdbConfig:
     url: str
     token: str
+
 
 @dataclass
 class NarodmonConfig:
     chel_mac: str
     columbus_mac: str
     moxovich_mac: str
+
 
 @dataclass
 class SimpleAuth:
@@ -107,5 +114,6 @@ def main():
     config = Config()
     print(str(config))
 
-if __name__ == '__main__':
+
+if __name__ == "__main__":
     main()
